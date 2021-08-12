@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>Fetch API #02</title>
+    <link rel='stylesheet' href='css/estilo.css'>
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        form input,
+        form select,
+        form button {
+            margin: 10px;
+            font-size: 1.6em;
+        }
+    </style>
+</head>
+
+<body class="conteudo exercicio">
+    <h1>Formulário Via Fetch</h1>
+    <form name="usuarioForm" action="formulario" method="post">
+        <input type="text" name="nome" placeholder="Nome..." />
+        <input type="text" name="sobrenome" placeholder="Sobrenome..." />
+        <button>Salvar</button>
+    </form>
+    <div id="resultado"></div>
+    <script>
+        //quando eu submeter meu formulário eu vou fazer uma função assincrona (async)...
+        document.usuarioForm.onsubmit = async e => {
+            //intercepto a ação e previno a ação padrão
+            e.preventDefault()
+
+            //vou pegar agora todos os dados do formulário e jogar em um formData
+            const form = e.target
+            const data = new FormData(form)
+
+            //configurações para requisição do método post
+            const options = {
+                method: form.method,
+                //pegando dados da minha requisição
+                body: new URLSearchParams(data)                
+            }
+
+            //pegando a url do endpoint do meu formulario, conforme também configuração no meu servidor
+            //e o segundo parâmetro são as configurações da minha requisição que fiz em options
+            fetch(form.action, options)
+                .then(resp => resp.json())
+                .then(json => {
+                    const resultado = document.getElementById('resultado')
+                    resultado.innerHTML = JSON.stringify(json)
+                })
+                //tratamento de erro na minha requisição ajax
+                .catch(e => {
+                    const resultado = document.getElementById('resultado')
+                    resultado.innerHTML = e
+                })
+            
+
+        }
+    </script>
+</body>

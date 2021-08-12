@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>XMLHttpRequest #03</title>
+    <link rel='stylesheet' href='css/estilo.css'>
+</head>
+
+<body class="conteudo exercicio">
+    <h1>Estados</h1>
+
+    <script>
+        function ajax(config) {
+            const xhr = new XMLHttpRequest()
+            xhr.open(config.metodo, config.url, true)
+
+            //evento que será chamado sempre que o status da requisição mudar
+            xhr.onreadystatechange = e => {
+                if (xhr.readyState === 4) {
+                    //se o status da minha requisição estiver concluída (4) e a resposta esteja pronta
+                    if (xhr.status === 200) {
+                        config.sucesso(xhr.responseXML)
+                        //chamo responseXML pois agora o arquivo é um XML
+                    } else if (xhr.status >= 400) {
+                        config.erro({
+                            code: xhr.status,
+                            texto: xhr.statusText
+                        })
+                    }
+                }
+            }
+
+            xhr.send()
+
+        }
+
+        ajax({
+            url: "dados/estados.xml",
+            metodo: "get",
+            sucesso(resposta) {
+                //como o XML é uma linguagem de marcação, para pegar os dados do XML para mostrar na tela, eu utilizo os comandos da DOM
+                const estados = resposta.getElementsByTagName('estado')
+                //após pegar todas as tags com nome estado
+                //eu vou transforma-las em um array e vou usar o reduce para transforma-la tudo em uma mesma coisa
+                //tudo vai ficar em uma string só
+                //meu acumulador é um html e vou colocando o nome dos estados dentro de uma tag li
+                //meu reduce começa com uma string vazia ('')
+                //então minha String vai ficar assim mais ou menos:
+                //' '
+                //Acre
+                //Goiânia
+                //etccc.....
+                const itens = Array.from(estados).reduce(
+                    (html, estado) => html + `<li>${estado.attributes.nome.value}</li>`, ''
+                )
+
+                //agora eu adiciono tudo isso, dentro de uma ul:
+                document.body.insertAdjacentHTML('beforeend', `<ul>${itens}</ul>`)
+            },
+
+            erro(e) {
+                const msg = document.createTextNode(`${e.code}: ${e.texto}`)
+                document.body.appendChild(msg)
+            }
+        })
+    </script>
+</body>

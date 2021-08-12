@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>XMLHttpRequest #01</title>
+    <link rel='stylesheet' href='css/estilo.css'>
+</head>
+
+<body class="conteudo exercicio">
+    <h1>Estados</h1>
+
+    <script>
+        //Para representar minha função que vai fazer o trabalho ajax
+        //eu crio uma função com um objeto como parâmetro
+        //Esse objeto conterá todas as informações para minha requisição
+        //como URL, Resposta caso sucesso, Resposta caso erro, etc...
+        function ajax(config) {
+            const xhr = new XMLHttpRequest()
+            xhr.open("GET", config.url, true)
+            //to abrindo uma nova requisição do tipo GET (primeiro parâmetro), usando a URL de config (segundo parâmetro) e de forma assíncrona (true) (terceiro parâmetro).
+
+            xhr.onload = e => {
+                if (xhr.status === 200) {
+                    config.sucesso(xhr.response)
+                } else if (xhr.status >= 400) {
+                    config.erro({
+                        code: xhr.status,
+                        text: xhr.statusText
+                    })
+                }
+            }
+
+            //Na função xhr.onload, significa que vou passar uma função no evento onload da requisição
+            //se o status da minha requisição for igual a 200, que é quando eu tenho uma requisição com sucesso:
+            //eu passo na mensagem de sucesso da minha config a resposta da requisição
+            //caso o status da minha requisição for igual ou maior que 400, que é quando há algum erro de servidor ou do usuário:
+            //eu passo na mensagem de erro da minha config um objeto contendo o status da requisição e o texto do status da requisição.
+
+            xhr.send()
+            //função que de fato vai enviar a requisição.
+
+            //Basicamente o objeto de configuração (config) tem que ter três propriedades: a url, o método de sucesso e o método de erro.
+        }
+            //aqui minha requisição ajax abaixo retornando na página o documento estado.json:
+        ajax({
+            url: "dados/estados.json",
+            sucesso(resposta) {
+                const estados = JSON.parse(resposta)
+
+                const linhas = estados.map(estado => {
+                    const tdId = document.createElement('td')
+                    tdId.innerHTML = estado.id
+
+                    const tdNome = document.createElement('td')
+                    tdNome.innerHTML = estado.nome
+                        
+                    const tdSigla = document.createElement('td')
+                    tdSigla.innerHTML = estado.sigla
+
+                    const tr = document.createElement('tr')
+
+                    tr.appendChild(tdId)
+                    tr.appendChild(tdNome)
+                    tr.appendChild(tdSigla)
+
+                    return tr
+                })
+
+                const tabela = document.createElement('table')
+                linhas.forEach(linha => {
+                    tabela.appendChild(linha)
+                })
+                document.body.appendChild(tabela)
+            },
+            erro(e) {
+                const msg = document.createTextNode(`${e.code}: ${e.text}`)
+                document.body.appendChild(msg)
+            }
+        })
+
+
+    </script>
+</body>

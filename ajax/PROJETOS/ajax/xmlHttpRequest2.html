@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>XMLHttpRequest #02</title>
+    <link rel='stylesheet' href='css/estilo.css'>
+    <style>
+        input[type=file] {
+            display: flex;
+            margin: 10px;
+            padding: 40px;
+            font-size: 40px;
+            background: crimson;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+
+<body class="conteudo exercicio">
+    <input type="file" name="arquivo" />
+    <div class="progresso"></div>
+
+    <script>
+        function ajaxUpload(config) {
+            //Função ajax que recebe uma configuração para upload
+            const xhr = new XMLHttpRequest()
+
+            if(xhr.upload) {
+                //Se minha requisição estiver fazendo um upload
+                xhr.upload.onprogress = e => {
+                    //durante o progresso do meu upload eu pego as informações que quero abaixo sobre o upload
+                    const atual = e.loaded
+                    const total = e.total
+                    const percentual = Math.floor(atual / total * 100)
+                    //coloco essas informações dentro da propriedade de progresso da minha config
+                    config.progresso({atual, total, percentual})
+                }
+            }
+
+            xhr.open("post", config.url, true)
+            //abrindo minha requisição do tipo post na URL que tiver na minha config, de forma assíncrona ("true")
+
+
+            xhr.send(config.formData)
+            //agora enviando minha requisição com o arquivo que selecionei, que estará dentro de config.FormData
+
+        }
+
+        //Agora eu vou acionar minha função ajaxUpload a partir do momento que selecionar o arquivo para upload
+        document.querySelector('input[type=file]').onchange = e => {
+            //adicionando em um formData o nome do meu elemento HTML onde to pegando os arquivos ('arquivo') e o arquivo que foi selecionado
+            const formData = new FormData()
+            formData.append(e.target.name, e.target.files[0])
+
+            //agora eu vou chamar minha função ajaxUpload para realizar o upload
+            ajaxUpload({
+                url: "upload",
+                formData: formData,
+                progresso(dados) {
+                    //vamos adicionar os dados do progresso dentro da div 'progresso'
+                    const progresso = document.querySelector('.progresso')
+                    progresso.innerHTML = JSON.stringify(dados)
+                }
+            })
+        }
+    </script>
+</body>

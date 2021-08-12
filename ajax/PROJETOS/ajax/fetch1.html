@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>Fetch API #01</title>
+    <link rel='stylesheet' href='css/estilo.css'>
+</head>
+
+<body class="conteudo exercicio">
+    <h1>Estados</h1>
+
+    <script>
+        const url = 'dados/estados.json'
+        //url onde tenho meu json de dados
+        fetch(url)
+        //chamar a requisição com base nessa URL
+            .then(resp => resp.json())
+            //dei o comando pra me dar uma resposta da minha requisição (nesse caso meus dados)
+            .then(estados => {
+                const itens = estados.reduce(
+                    (html, estado) => html + `<li>${estado.nome}</li>`, ''
+                )
+
+                document.body.insertAdjacentHTML('beforeend', `<ul>${itens}</ul>`)
+            })
+            //agora dei o comando para realizar algum trabalho com meus dados da resposta
+            //nesse caso to adicionando cada nome dos estados do meu json a uma lista no corpo do HTML da minha página
+    </script>
+</body>

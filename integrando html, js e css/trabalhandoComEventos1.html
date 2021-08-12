@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>Trabalhando com Eventos #01</title>
+    <link rel='stylesheet' href='css/estilo.css'>
+</head>
+
+<body class="conteudo exercicio">
+    <div>
+
+        <a href="https://google.com.br" onclick="navegarEm5s(event)">Google</a>
+    </div>
+    <script>
+        /*interceptar o click do link em 5 segundos, parar o comportamento padrão*/
+        function navegarEm5s(e) {
+            e.preventDefault()
+            console.log('Saindo em 5s')
+            /*setTimeout para esperar 5s*/
+            setTimeout(() => {
+                /*o link é o alvo do evento, ou seja, o próprio elemento*/
+                const link = e.target
+                /*vou substituir a barra de URL da janela pelo href do meu link*/
+                window.location.href = link.href
+            }, 5000)
+        }
+    </script>
+</body>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>Trabalhando com Eventos #02</title>
+    <link rel='stylesheet' href='css/estilo.css'>
+</head>
+
+<body class="conteudo exercicio">
+    <div>Elemento</div>
+    <script>
+        const item = document.querySelector('div')
+        /*posição do item tem que ser absoluta pra conseguir mover meu item*/
+        item.style.position = 'absolute'
+
+        item.onmousemove = e => {
+            const item = e.target
+            item.style.cursor = 'move'
+            /*verificar se o clique está selecionado*/
+            /*o evento buttons se tiver selecionado vai retornar verdadeiro*/
+            if (e.buttons) {
+                /*quem disparou o evento terá sua posição setada em relação ao topo da página*/
+                /*vai ser igual o eixo Y, onde o cursor do mouse está menos a altura div dividido por 2*/
+                item.style.top = `${e.clientY - (item.clientHeight / 2)}px`
+                item.style.left = `${e.clientX - (item.clientWidth / 2)}px`
+            }
+        }
+    </script>
+</body>

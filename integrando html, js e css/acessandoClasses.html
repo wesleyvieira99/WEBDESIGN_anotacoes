@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>Acessando Classes</title>
+    <link rel='stylesheet' href='css/estilo.css'>
+</head>
+
+<body class='conteudo exercicio'>
+    <div>
+        Classes
+    </div>
+    <script>
+        /*vou pegar a lista de classes deste elemento*/
+        const classes = document.querySelector('div').classList
+
+        classes.add('destaque')
+        classes.remove('destaque')
+        /*alternância: se existe uma classe ele remove, se não existe adiciona*/
+        classes.toggle('destaque')
+        /*verificar se uma classe está contida na minha lista de classes*/
+        console.log(classes.contains('destaque'))
+        /*qtde de classes que elemento tem*/
+        console.log(classes.length)
+
+    </script>
+</body>
+
+</html>

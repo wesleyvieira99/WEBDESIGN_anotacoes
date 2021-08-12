@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>Modificando HTML #02</title>
+    <link rel='stylesheet' href='css/estilo.css'>
+</head>
+
+<body class='conteudo exercicio'>
+    <div>
+        <p>Texto Inicial</p>
+    </div>
+    <script>
+        const div = document.querySelector('div')
+        div.innerHTML = 'TextoAlterado'
+        /*Não só substitui dentro da div, mas também excluí div*/
+        div.outerHTML = 'Texto2'
+        /*adicionar um elemento HTML adjacente, neste caso o 'beforebegin' é antes do meu elemento*/
+        div.insertAdjacentHTML('beforebegin', '<p> Eai </p>')
+        /*agora depois do meu elemento que selecionei*/
+        div.insertAdjacentHTML('afterbegin', '<p> Eai </p>')
+        /*agora antes do final meu elemento que selecionei*/
+        div.insertAdjacentHTML('beforeend', '<p> Eai </p>')
+        /*agora depois do final do meu elemento que selecionei*/
+        div.insertAdjacentHTML('afterend', '<p> Eai </p>')
+    </script>
+</body>
+
+</html>

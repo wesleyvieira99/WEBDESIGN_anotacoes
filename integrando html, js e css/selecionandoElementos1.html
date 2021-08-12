@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Selecionar Elementos #01</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body class="conteudo exercicio">
+    <div id="primeiro">#primeiro</div>
+    <div>Segundo</div>
+    <div class="terceiro ultimo">.terceiro .ultimo</div>
+    <script>    
+
+        /*------Pegando elementos pelo ID-------*/
+        document.getElementById('primeiro').classList.add('destaque')
+
+        /*-----Pegando elementos pela tag-------*/
+        const divs = document.getElementsByTagName('div')
+        /*Pegando tags eu retorno um HTMLCollection. Mas para que eu possa trabalhar
+        com essa lista de elementos pegados dentro deste HTMLCollection, eu tenho
+        que transformar em um array. Com este Array consigo fazer, como no exemplo abaixo,
+        o que eu quiser. Neste caso para cada div coletada, remove a classe css 'destaque'*/
+        Array.from(divs).forEach( e => e.classList.remove('destaque'))
+        /*Outra forma de transformar um HTMLCollection em Array*/
+        const divsArray = [...divs]
+        divsArray.forEach(e => e.classList.add('destaque'))
+
+        /*-----Pegando elementos pela classe CSS-------*/
+        const ultimoElementos = document.getElementsByClassName('ultimo')
+        /*Também retorna um HTMLCollection e, por isso, por ser um iterator,
+        eu consigo trabalhar com o for.*/
+        for(let e of ultimoElementos) {
+            e.classList.remove('destaque')
+        }
+
+    </script>
+</body>
+</html>

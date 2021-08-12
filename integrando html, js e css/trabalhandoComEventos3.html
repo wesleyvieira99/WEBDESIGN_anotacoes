@@ -1,0 +1,78 @@
+</html>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>Trabalhando com Eventos #03</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+        }
+        
+        .esquerda {
+            height: 100vh;
+            width: 50%;
+            background-color: coral;
+        }
+        
+        .direita {
+            height: 100vh;
+            width: 50%;
+            background-color: cornflowerblue;
+        }
+        
+        .item {
+            border: solid 5px black;
+            background-color: darkgrey;
+            color: white;
+            height: 100px;
+            font-size: 40px;
+            margin: 10px;
+            vertical-align: middle;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="esquerda" wm-dropzone>
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+    </div>
+    <div class="direita" wm-dropzone></div>
+    <script>
+        /*pego todos os items*/
+        const items = document.querySelectorAll('[wm-dropzone] .item')
+
+        /*para cada item eu deixo eles como draggable verdadeiro, ou seja, posso arrastar
+        o id dos meus itens serão 'draggable-item-1, draggable-item-2' e assim por diante
+        quando eu começar eu mexer no meu item, eu jogo pro meu dataTransfer o id do meu item selecionado*/
+        items.forEach((item, index) => {
+            item.draggable = true 
+            item.id = item.id || `draggable-item-${index}`
+            item.ondragstart = e => 
+                e.dataTransfer.setData('item-id', e.target.id)
+        })
+
+        /*a zona de drop, ou seja, que posso soltar é onde tem o atributo [wm-dropzone]*/
+        const dropzones = document.querySelectorAll('[wm-dropzone]')
+
+        /*para cada dropzone que eu tenho, quando eu terminar de mover o item, eu dou uma segurada no comporamento padrão
+        quando eu dropar, ou seja, jogar eu realizo a função de pegar do meu dataTransfer o Id do meu item
+        e no final adiciono no meu dropzone meu item com o Id que peguei do meu dataTransfer*/
+        dropzones.forEach(dropzone => {
+            dropzone.ondragover = e => e.preventDefault()
+            dropzone.ondrop = function(e) {
+                const id = e.dataTransfer.getData('item-id')
+                const item = document.getElementById(id)
+                dropzone.appendChild(item)
+            }
+        })
+    </script>
+</body>
+
+</html>

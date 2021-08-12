@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Selecionar Elementos #02</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body class="conteudo exercicio">
+    <div id="primeiro">#primeiro</div>
+    <div>Segundo</div>
+    <div class="terceiro ultimo"><span wb-attrib>.terceiro .ultimo</span></div>
+    <script>       
+        /*O querySelector seleciona qualquer elemento CSS (tags, classes, ID)*/       
+        document.querySelector('#primeiro').classList.add('destaque')
+        /*No código acima eu selecionei o elemento com ID 'primeiro' e coloquei a classe
+        CCS 'destaque' nele*/
+
+        /*função para adicionar a classe CSS 'destaque' em vários elementos */
+        const selecionar = seletor => document.querySelectorAll(seletor).forEach(e => e.classList.add('destaque'))
+        /*função para remover a classe CSS 'destaque' em vários elementos */
+        const remover = seletor => document.querySelectorAll(seletor).forEach(e => e.classList.remove('destaque'))
+
+        selecionar ('div')
+
+        remover('*')
+
+        /*Selecionar todo mundo que não for o elemento com ID 'primeiro'*/
+        selecionar(':not(#primeiro)')
+
+        remover('*')
+
+        selecionar(':nth-child(1)')
+
+        remover('*')
+
+        /*Selecionar somente o primeiro filho do tipo div*/
+        selecionar('div:nth-of-type(1)')
+
+        remover('*')
+
+        selecionar('[wb-attrib]')
+
+        remover('*')
+
+    </script>
+</body>
+</html>

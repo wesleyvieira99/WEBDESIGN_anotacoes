@@ -1,0 +1,9 @@
+.interface {
+
+}
+.cabecalho {
+}
+.oculos {
+width:100px
+}
+
